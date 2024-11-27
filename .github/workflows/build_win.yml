@@ -12,14 +12,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-
-    - name: Use Preinstalled Git
-      run: |
-        git --version
-
-    - name: Use Preinstalled CMake
-      run: |
-        cmake --version
+      with:
+        ref: "ca1501f"
 
     - name: Clone vcpkg
       run: |
@@ -28,7 +22,7 @@ jobs:
 
     - name: Install OpenImageIO
       run: |
-        .\vcpkg\vcpkg.exe install openimageio:x64-windows
+        .\vcpkg\vcpkg.exe install openimageio[gif,libheif,libraw,opencolorio,openjpeg,pybind11,tools]:x64-windows
 
     - name: Export OpenImageIO as Zip
       run: |
