@@ -12,13 +12,11 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-      with:
-        ref: ca1501f4b2cbc0a502594db6f303622394dbdf9f
 
     - name: Clone vcpkg
       run: |
         git clone https://github.com/microsoft/vcpkg.git
-        cd vcpkg && .\bootstrap-vcpkg.bat
+        cd vcpkg && git checkout ca1501f4b2cbc0a502594db6f303622394dbdf9f && .\bootstrap-vcpkg.bat
 
     - name: Install OpenImageIO
       run: |
