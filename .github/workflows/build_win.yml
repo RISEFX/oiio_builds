@@ -13,13 +13,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Install Git
+    - name: Use Preinstalled Git
       run: |
-        choco install git -y
+        git --version
 
-    - name: Install CMake
+    - name: Use Preinstalled CMake
       run: |
-        choco install cmake -y
+        cmake --version
 
     - name: Clone vcpkg
       run: |
@@ -32,7 +32,7 @@ jobs:
 
     - name: Export OpenImageIO as Zip
       run: |
-        .\vcpkg\vcpkg.exe export openimageio:x64-windows --zip --output-path artifacts
+        .\vcpkg\vcpkg.exe export openimageio:x64-windows --zip --output-dir artifacts
       env:
         VCPKG_ROOT: ${{ github.workspace }}\vcpkg
 
