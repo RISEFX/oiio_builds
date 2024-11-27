@@ -1,0 +1,43 @@
+name: Build and Export OpenImageIO
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-export:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install Git
+      run: |
+        choco install git -y
+
+    - name: Install CMake
+      run: |
+        choco install cmake -y
+
+    - name: Clone vcpkg
+      run: |
+        git clone https://github.com/microsoft/vcpkg.git
+        cd vcpkg && .\bootstrap-vcpkg.bat
+
+    - name: Install OpenImageIO
+      run: |
+        .\vcpkg\vcpkg.exe install openimageio:x64-windows
+
+    - name: Export OpenImageIO as Zip
+      run: |
+        .\vcpkg\vcpkg.exe export openimageio:x64-windows --zip --output-path artifacts
+      env:
+        VCPKG_ROOT: ${{ github.workspace }}\vcpkg
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: openimageio-package
+        path: artifacts/*.zip
